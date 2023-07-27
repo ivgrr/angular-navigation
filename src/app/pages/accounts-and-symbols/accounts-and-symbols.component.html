@@ -1,72 +1,43 @@
-<ul class="page-cards">
-  <li class="page-card-item">
-    <div class="heading">
-      <div class="icon">
-        <svg>
-          <use xlink:href="/assets/sprites.svg#account"></use>
-        </svg>
-      </div>
-      <h3 title="Accounts">
-        <a href="/accounts-and-symbols/accounts">Accounts</a>
-      </h3>
-    </div>
-    <div class="content">
-      <ul class="nav-list">
-        <li class="search">
-          <a href="/accounts-and-symbols/accounts">
-            Find Account
+<app-page-cards>
+  <ul class="page-cards">
+    <ng-container *ngFor="let card of cardItems">
+      <li class="page-card-item">
+        <app-page-card-item-heading>
+          <div class="heading">
             <div class="icon">
               <svg>
-                <use xlink:href="/assets/sprites.svg#search-small"></use>
+                <use [attr.xlink:href]="card.icon"></use>
               </svg>
             </div>
-          </a>
-        </li>
-        <li>
-          <a href="/accounts-and-symbols/accounts/related-profiles"
-            >Related Profiles</a
-          >
-        </li>
-        <li>
-          <a href="/accounts-and-symbols/accounts/accounts-groups"
-            >Accounts Groups</a
-          >
-        </li>
-      </ul>
-    </div>
-  </li>
-  <li class="page-card-item">
-    <div class="heading">
-      <div class="icon">
-        <svg>
-          <use xlink:href="/assets/sprites.svg#symbol"></use>
-        </svg>
-      </div>
-      <h3 title="Accounts">
-        <a href="/accounts-and-symbols/symbols">Symbols</a>
-      </h3>
-    </div>
-    <div class="content">
-      <ul class="nav-list">
-        <li class="search">
-          <a href="/accounts-and-symbols/symbols">
-            Find Symbol
-            <div class="icon">
-              <svg>
-                <use xlink:href="/assets/sprites.svg#search-small"></use>
-              </svg>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="/accounts-and-symbols/symbols/contracts">Contracts</a>
-        </li>
-        <li>
-          <a href="/accounts-and-symbols/symbols/symbols-groups"
-            >Symbols Groups</a
-          >
-        </li>
-      </ul>
-    </div>
-  </li>
-</ul>
+            <h3 [attr.title]="card.title">
+              <a [routerLink]="card.path">{{ card.title }}</a>
+            </h3>
+          </div>
+        </app-page-card-item-heading>
+        <app-page-card-item-content>
+          <div class="content">
+            <ul class="nav-list">
+              <ng-container
+                *ngIf="card.children && card.children[0] as firstChild"
+              >
+                <li class="search">
+                  <a [routerLink]="firstChild.path">
+                    {{ firstChild.title }}
+                    <div class="icon">
+                      <svg>
+                        <use [attr.xlink:href]="firstChild.icon"></use>
+                      </svg>
+                    </div>
+                  </a>
+                </li>
+              </ng-container>
+              <li *ngFor="let child of card.children?.slice(1)">
+                <a [routerLink]="child.path">{{ child.title }}</a>
+              </li>
+            </ul>
+          </div>
+        </app-page-card-item-content>
+      </li>
+    </ng-container>
+  </ul>
+</app-page-cards>
