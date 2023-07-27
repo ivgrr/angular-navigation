@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { NavigationService } from 'src/app/navigation/navigation.service';
 import { NavigationRoute } from 'src/app/navigation/navigation.types';
 
-interface CardItem {
+export interface CardItem {
   title: string;
   icon?: string;
   path: string;

@@ -16,25 +16,16 @@
         </app-page-card-item-heading>
         <app-page-card-item-content>
           <div class="content">
-            <ul class="nav-list">
-              <ng-container
-                *ngIf="card.children && card.children[0] as firstChild"
+            <ng-container
+              *ngIf="card.children && card.children[0] as firstChild"
+            >
+              <app-level-three-navigation
+                [firstChildPath]="firstChild.path"
+                [firstChildIcon]="firstChild.icon"
+                [children]="card.children.slice(1)"
+                >{{ firstChild.title }}</app-level-three-navigation
               >
-                <li class="search">
-                  <a [routerLink]="firstChild.path">
-                    {{ firstChild.title }}
-                    <div class="icon">
-                      <svg>
-                        <use [attr.xlink:href]="firstChild.icon"></use>
-                      </svg>
-                    </div>
-                  </a>
-                </li>
-              </ng-container>
-              <li *ngFor="let child of card.children?.slice(1)">
-                <a [routerLink]="child.path">{{ child.title }}</a>
-              </li>
-            </ul>
+            </ng-container>
           </div>
         </app-page-card-item-content>
       </li>

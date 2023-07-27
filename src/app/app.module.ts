@@ -10,6 +10,7 @@ import { PageCardItemComponent } from './components/page-cards/page-card-item/pa
 import { PageCardItemHeadingComponent } from './components/page-cards/page-card-item/page-card-item-heading/page-card-item-heading.component';
 import { PageCardItemContentComponent } from './components/page-cards/page-card-item/page-card-item-content/page-card-item-content.component';
 import { AccountsAndSymbolsComponent } from './pages';
+import { LevelThreeNavigationComponent } from './level-three-navigation/level-three-navigation.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AccountsAndSymbolsComponent } from './pages';
     PageCardItemComponent,
     PageCardItemHeadingComponent,
     PageCardItemContentComponent,
+    LevelThreeNavigationComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, NavigationModule],
   providers: [],
