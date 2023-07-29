@@ -1,5 +1,9 @@
-// accounts-and-symbols.component.ts
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NavigationService } from 'src/app/navigation/navigation.service';
@@ -15,6 +19,7 @@ interface CardItem {
 @Component({
   selector: 'app-accounts-and-symbols',
   templateUrl: './accounts-and-symbols.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountsAndSymbolsComponent implements OnInit, OnDestroy {
   navigationRoute: NavigationRoute | null = null;
