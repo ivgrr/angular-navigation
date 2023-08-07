@@ -1,5 +1,6 @@
-import { InjectionToken } from '@angular/core';
-import { Observable } from 'rxjs';
+import { InjectionToken, inject } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Observable, combineLatestWith, filter, map } from 'rxjs';
 
 /**
  * Route data structure
@@ -36,73 +37,18 @@ export type EnhancedNavigationRoute = NavigationRoute & {
   parent?: EnhancedNavigationRoute | null;
 
   /**
-   * Enchaced child routes, used for displaying nested routes
+   * Enhanced child routes, used for displaying nested routes
    */
   children?: EnhancedNavigationRoute[];
+
+  active?: boolean;
 };
 
 /**
  * Token that provides all available routes for navigation
  */
 export const NavigationRoutes = new InjectionToken<NavigationRoute[]>(
-  `Navigation Routes`,
-  {
-    providedIn: 'root',
-    factory: (): NavigationRoute[] => [
-      {
-        title: 'Dashboard',
-        path: '/dashboard',
-        icon: '/assets/sprites.svg#dashboard',
-      },
-      {
-        title: 'Accounts and Symbols',
-        path: '/accounts-and-symbols',
-        icon: '/assets/sprites.svg#section-accounts-and-symbols',
-        children: [
-          {
-            title: 'Accounts',
-            path: '/accounts-and-symbols/accounts',
-            icon: '/assets/sprites.svg#account',
-            children: [
-              {
-                title: 'Find Account',
-                path: '/accounts-and-symbols/accounts',
-                icon: '/assets/sprites.svg#search-small',
-              },
-              {
-                title: 'Related Profiles',
-                path: '/accounts-and-symbols/accounts/related-profiles',
-              },
-              {
-                title: 'Accounts Groups',
-                path: '/accounts-and-symbols/accounts/accounts-groups',
-              },
-            ],
-          },
-          {
-            title: 'Symbols',
-            path: '/accounts-and-symbols/symbols',
-            icon: '/assets/sprites.svg#symbol',
-            children: [
-              {
-                title: 'Find Symbol',
-                path: '/accounts-and-symbols/symbols',
-                icon: '/assets/sprites.svg#search-small',
-              },
-              {
-                title: 'Contracts',
-                path: '/accounts-and-symbols/symbols/contracts',
-              },
-              {
-                title: 'Symbols Groups',
-                path: '/accounts-and-symbols/symbols/symbols-groups',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  }
+  `Navigation Routes`
 );
 
 /**
@@ -118,10 +64,75 @@ export type NavigationEnhancement = (
 export const NAVIGATION_ENHANCEMENTS = new InjectionToken<
   NavigationEnhancement[]
 >(`Navigation Enhancements`, {
-  factory: (): NavigationEnhancement[] => [
-    // TODO: You need to implement the enhancement of navigation data and put it in this array
-  ],
+  factory: (): NavigationEnhancement[] => {
+    const router = inject(Router);
+
+    return [
+      // enhancement: adding parent to children
+      (routes: Observable<NavigationRoute[]>) => {
+        return routes.pipe(
+          map((routes) => setParentsForChildren(routes, null))
+        );
+      },
+
+      // enhancement: adding active state to routes
+      (routes: Observable<NavigationRoute[]>) => {
+        const routeIsChanged = router.events.pipe(
+          filter((event) => event instanceof NavigationEnd)
+        );
+
+        return routes.pipe(
+          combineLatestWith(routeIsChanged),
+          map(([routes]) => setRouteActiveState(routes, router))
+        );
+      },
+    ];
+  },
 });
+
+export function setRouteActiveState(
+  routes: NavigationRoute[],
+  router: Router
+): EnhancedNavigationRoute[] {
+  return routes.map((route) => {
+    const enhancedRoute: EnhancedNavigationRoute = {
+      ...route,
+      active: router.isActive(route.path, {
+        paths: 'subset',
+        matrixParams: 'ignored',
+        queryParams: 'ignored',
+        fragment: 'ignored',
+      }),
+    };
+
+    if (route.children) {
+      enhancedRoute.children = setRouteActiveState(route.children, router);
+    }
+
+    return enhancedRoute;
+  });
+}
+
+export function setParentsForChildren(
+  routes: NavigationRoute[],
+  parent: EnhancedNavigationRoute | null
+): EnhancedNavigationRoute[] {
+  return routes.map((route) => {
+    const enhancedRoute: EnhancedNavigationRoute = {
+      ...route,
+      parent,
+    };
+
+    if (route.children) {
+      enhancedRoute.children = setParentsForChildren(
+        route.children,
+        enhancedRoute
+      );
+    }
+
+    return enhancedRoute;
+  });
+}
 
 /**
  * Abstract navigation service, used to provide navigation data
