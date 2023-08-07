@@ -1,5 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { CardItem } from '../pages';
+
+export interface CardItem {
+  title: string;
+  icon?: string;
+  path: string;
+  children?: CardItem[];
+}
 
 @Component({
   selector: 'app-level-three-navigation',

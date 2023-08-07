@@ -1,34 +1,72 @@
 <app-page-cards>
-  <ul class="page-cards">
-    <ng-container *ngFor="let card of cardItems">
-      <li class="page-card-item">
-        <app-page-card-item-heading>
-          <div class="heading">
+  <app-page-card-item>
+    <app-page-card-item-heading>
+      <div class="icon">
+        <svg>
+          <use xlink:href="/assets/sprites.svg#account"></use>
+        </svg>
+      </div>
+      <h3 title="Accounts">
+        <a [routerLink]="'/accounts-and-symbols/accounts'">Accounts</a>
+      </h3>
+    </app-page-card-item-heading>
+    <app-page-card-item-content>
+      <ul class="nav-list">
+        <li class="search">
+          <a href="/accounts-and-symbols/accounts">
+            Find Account
             <div class="icon">
               <svg>
-                <use [attr.xlink:href]="card.icon"></use>
+                <use xlink:href="/assets/sprites.svg#search-small"></use>
               </svg>
             </div>
-            <h3 [attr.title]="card.title">
-              <a [routerLink]="card.path">{{ card.title }}</a>
-            </h3>
-          </div>
-        </app-page-card-item-heading>
-        <app-page-card-item-content>
-          <div class="content">
-            <ng-container
-              *ngIf="card.children && card.children[0] as firstChild"
-            >
-              <app-level-three-navigation
-                [firstChildPath]="firstChild.path"
-                [firstChildIcon]="firstChild.icon"
-                [children]="card.children.slice(1)"
-                >{{ firstChild.title }}</app-level-three-navigation
-              >
-            </ng-container>
-          </div>
-        </app-page-card-item-content>
-      </li>
-    </ng-container>
-  </ul>
+          </a>
+        </li>
+        <li>
+          <a href="/accounts-and-symbols/accounts/related-profiles"
+            >Related Profiles</a
+          >
+        </li>
+        <li>
+          <a href="/accounts-and-symbols/accounts/accounts-groups"
+            >Accounts Groups</a
+          >
+        </li>
+      </ul>
+    </app-page-card-item-content>
+  </app-page-card-item>
+  <app-page-card-item>
+    <app-page-card-item-heading>
+      <div class="icon">
+        <svg>
+          <use xlink:href="/assets/sprites.svg#symbol"></use>
+        </svg>
+      </div>
+      <h3 title="Symbols">
+        <a [routerLink]="'/accounts-and-symbols/symbols'">Symbols</a>
+      </h3>
+    </app-page-card-item-heading>
+    <app-page-card-item-content>
+      <ul class="nav-list">
+        <li class="search">
+          <a href="/accounts-and-symbols/symbols">
+            Find Symbol
+            <div class="icon">
+              <svg>
+                <use xlink:href="/assets/sprites.svg#search-small"></use>
+              </svg>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="/accounts-and-symbols/symbols/contracts">Contracts</a>
+        </li>
+        <li>
+          <a href="/accounts-and-symbols/symbols/symbols-groups"
+            >Symbols Groups</a
+          >
+        </li>
+      </ul>
+    </app-page-card-item-content>
+  </app-page-card-item>
 </app-page-cards>
