@@ -11,28 +11,20 @@
       </h3>
     </app-page-card-item-heading>
     <app-page-card-item-content>
-      <ul class="nav-list">
+      <app-level-three-navigation
+        [routePath]="'/accounts-and-symbols/accounts'"
+      >
         <li class="search">
-          <a href="/accounts-and-symbols/accounts">
+          <a [routerLink]="'/accounts-and-symbols/accounts'">
             Find Account
             <div class="icon">
               <svg>
-                <use xlink:href="/assets/sprites.svg#search-small"></use>
+                <use xlink:href="/assets/sprites.svg#search"></use>
               </svg>
             </div>
           </a>
         </li>
-        <li>
-          <a href="/accounts-and-symbols/accounts/related-profiles"
-            >Related Profiles</a
-          >
-        </li>
-        <li>
-          <a href="/accounts-and-symbols/accounts/accounts-groups"
-            >Accounts Groups</a
-          >
-        </li>
-      </ul>
+      </app-level-three-navigation>
     </app-page-card-item-content>
   </app-page-card-item>
   <app-page-card-item>
@@ -47,26 +39,18 @@
       </h3>
     </app-page-card-item-heading>
     <app-page-card-item-content>
-      <ul class="nav-list">
+      <app-level-three-navigation [routePath]="'/accounts-and-symbols/symbols'">
         <li class="search">
-          <a href="/accounts-and-symbols/symbols">
+          <a [routerLink]="'/accounts-and-symbols/symbols'">
             Find Symbol
             <div class="icon">
               <svg>
-                <use xlink:href="/assets/sprites.svg#search-small"></use>
+                <use xlink:href="/assets/sprites.svg#search"></use>
               </svg>
             </div>
           </a>
         </li>
-        <li>
-          <a href="/accounts-and-symbols/symbols/contracts">Contracts</a>
-        </li>
-        <li>
-          <a href="/accounts-and-symbols/symbols/symbols-groups"
-            >Symbols Groups</a
-          >
-        </li>
-      </ul>
+      </app-level-three-navigation>
     </app-page-card-item-content>
   </app-page-card-item>
 </app-page-cards>
