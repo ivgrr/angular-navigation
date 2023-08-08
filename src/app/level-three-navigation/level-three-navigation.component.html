@@ -1,7 +1,7 @@
 <ul class="nav-list">
   <ng-content></ng-content>
 
-  <li *ngFor="let child of childrenRoutes">
+  <li *ngFor="let child of childrenRoutes | async">
     <a [routerLink]="child.path">{{ child.title }}</a>
   </li>
 </ul>
