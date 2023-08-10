@@ -1,42 +1,83 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {
-  AccountsAndSymbolsComponent,
-  AccountsComponent,
-  AccountsGroupsComponent,
-  ContractsComponent,
-  DashboardComponent,
-  RelatedProfilesComponent,
-  SymbolsComponent,
-  SymbolsGroupsComponent,
-} from './pages';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'accounts-and-symbols', component: AccountsAndSymbolsComponent },
-  { path: 'accounts-and-symbols/accounts', component: AccountsComponent },
-  { path: 'accounts-and-symbols/symbols', component: SymbolsComponent },
+export const routes: Routes = [
   {
-    path: 'accounts-and-symbols/accounts/related-profiles',
-    component: RelatedProfilesComponent,
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./pages/dashboard').then((m) => m.DashboardModule),
   },
   {
-    path: 'accounts-and-symbols/accounts/accounts-groups',
-    component: AccountsGroupsComponent,
+    path: 'accounts-and-symbols',
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./pages/accounts-and-symbols').then(
+            (m) => m.AccountsAndSymbolsModule
+          ),
+      },
+      {
+        path: 'accounts',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./pages/accounts').then((m) => m.AccountsModule),
+          },
+          {
+            path: 'related-profiles',
+            loadChildren: () =>
+              import('./pages/related-profiles').then(
+                (m) => m.RelatedProfilesModule
+              ),
+          },
+          {
+            path: 'accounts-groups',
+            loadChildren: () =>
+              import('./pages/accounts-groups').then(
+                (m) => m.AccountsGroupsModule
+              ),
+          },
+        ],
+      },
+      {
+        path: 'symbols',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./pages/symbols').then((m) => m.SymbolsModule),
+          },
+          {
+            path: 'contracts',
+            loadChildren: () =>
+              import('./pages/contracts/').then((m) => m.ContractsModule),
+          },
+          {
+            path: 'symbols-groups',
+            loadChildren: () =>
+              import('./pages/symbols-groups').then(
+                (m) => m.SymbolsGroupsModule
+              ),
+          },
+        ],
+      },
+    ],
   },
   {
-    path: 'accounts-and-symbols/symbols/contracts',
-    component: ContractsComponent,
+    path: '**',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
   },
-  {
-    path: 'accounts-and-symbols/symbols/symbols-groups',
-    component: SymbolsGroupsComponent,
-  },
-  { path: '**', component: DashboardComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
