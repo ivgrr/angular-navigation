@@ -1,1 +1,19 @@
-<p>accounts-groups works!</p>
+<app-page-cards>
+  <app-page-card-item *ngFor="let accountsGroup of accountsGroupsData | async">
+    <app-page-card-item-heading>
+      <h3>{{ accountsGroup.name }}</h3>
+    </app-page-card-item-heading>
+    <app-page-card-item-content>
+      <ul class="data-list">
+        <li>
+          <span>Accounts group description:</span>
+          {{ accountsGroup.description }}
+        </li>
+        <li>
+          <span>Accounts group:</span>
+          {{ accountsGroup.accounts }}
+        </li>
+      </ul>
+    </app-page-card-item-content>
+  </app-page-card-item>
+</app-page-cards>

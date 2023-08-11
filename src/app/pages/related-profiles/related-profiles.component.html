@@ -1,1 +1,25 @@
-<p>related-profiles works!</p>
+<app-page-cards>
+  <app-page-card-item
+    *ngFor="let relatedProfile of relatedProfilesData | async"
+  >
+    <app-page-card-item-heading>
+      <h3>{{ relatedProfile.name }}</h3>
+    </app-page-card-item-heading>
+    <app-page-card-item-content>
+      <ul class="data-list">
+        <li>
+          <span>Related profile description:</span>
+          {{ relatedProfile.description }}
+        </li>
+        <li>
+          <span>Contact:</span>
+          {{ relatedProfile.contact }}
+        </li>
+        <li>
+          <span>Position:</span>
+          {{ relatedProfile.position }}
+        </li>
+      </ul>
+    </app-page-card-item-content>
+  </app-page-card-item>
+</app-page-cards>

@@ -53,3 +53,14 @@ In this task, I have implemented the required card components for displaying car
 In this task, I have implemented an additional component, the Level 3 navigation, and integrated it within the card components that were created in the previous task. When opening the "Accounts and Symbols" page, two cards named "Accounts" and "Symbols" are displayed with their respective Level 3 navigation items.
 
 Each card contains Level 3 navigation items, populated from the corresponding section of the navigation configuration. An additional navigation element can be passed to each card using `ng-content`, and it is correctly displayed within the card.
+
+# Task 5 — Implementation of Data Retrieval and and Filling Lower-Level Pages with Content
+
+**Description of the Work Done:** In this task, I extended the application's functionality by utilizing the navigation service. The task involved implementing the ability to retrieve data from the navigation service and dynamically populate the content on pages situated at the lower levels of the hierarchy.
+
+**Steps Taken:**
+
+- I implemented the required functionality to retrieve data from the navigation service.
+- I updated the lower-level content pages, ensuring they were ready to receive data from the navigation service.
+- By utilizing the methods provided by the navigation service, I extracted the necessary data for populating the content on the respective pages.
+- The retrieved data was accurately and precisely displayed on pages with lists of related data. I employed appropriate components and layouts to achieve this.

@@ -1,1 +1,23 @@
-<p>contracts works!</p>
+<app-page-cards>
+  <app-page-card-item *ngFor="let contract of contractsData | async">
+    <app-page-card-item-heading>
+      <h3>{{ contract.name }}</h3>
+    </app-page-card-item-heading>
+    <app-page-card-item-content>
+      <ul class="data-list">
+        <li>
+          <span>Contract description:</span>
+          {{ contract.description }}
+        </li>
+        <li>
+          <span>Contract type:</span>
+          {{ contract.type }}
+        </li>
+        <li>
+          <span>Contract amount:</span>
+          {{ contract.amount }}
+        </li>
+      </ul>
+    </app-page-card-item-content>
+  </app-page-card-item>
+</app-page-cards>

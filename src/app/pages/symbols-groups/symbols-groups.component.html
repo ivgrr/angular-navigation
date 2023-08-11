@@ -1,1 +1,19 @@
-<p>symbols-groups works!</p>
+<app-page-cards>
+  <app-page-card-item *ngFor="let symbolsGroup of symbolsGroupsData | async">
+    <app-page-card-item-heading>
+      <h3>{{ symbolsGroup.name }}</h3>
+    </app-page-card-item-heading>
+    <app-page-card-item-content>
+      <ul class="data-list">
+        <li>
+          <span>Symbols group description:</span>
+          {{ symbolsGroup.description }}
+        </li>
+        <li>
+          <span>Symbols:</span>
+          {{ symbolsGroup.symbols }}
+        </li>
+      </ul>
+    </app-page-card-item-content>
+  </app-page-card-item>
+</app-page-cards>

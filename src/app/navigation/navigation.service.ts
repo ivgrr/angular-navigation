@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable, OperatorFunction, of } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import {
   EnhancedNavigationRoute,
   NAVIGATION_ENHANCEMENTS,
   NavigationEnhancement,
   NavigationRoute,
+  NavigationRouteData,
   NavigationRoutes,
   NavigationServiceBase,
 } from './navigation.types';
@@ -67,6 +68,12 @@ export class NavigationService extends NavigationServiceBase {
     return this.getRoutes().pipe(
       map((routes) => this.findRouteByPath(routes, routeUrl))
     );
+  }
+
+  public override getRouteData(
+    routeUrl: string
+  ): Observable<NavigationRouteData[] | undefined> {
+    return this.getRoute(routeUrl).pipe(map((route) => route?.data));
   }
 
   public override getBreadcrumbs(

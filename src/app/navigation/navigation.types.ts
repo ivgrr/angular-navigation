@@ -5,6 +5,35 @@ import { Observable, combineLatestWith, filter, map } from 'rxjs';
 /**
  * Route data structure
  */
+export type BaseNavigationRouteData = {
+  name: string;
+  description: string;
+};
+
+export type RelatedProfilesData = BaseNavigationRouteData & {
+  position?: string;
+  contact?: string;
+};
+
+export type AccountsGroupsData = BaseNavigationRouteData & {
+  accounts?: string[];
+};
+
+export type ContractsData = BaseNavigationRouteData & {
+  type?: string;
+  amount?: number;
+};
+
+export type SymbolsGroupsData = BaseNavigationRouteData & {
+  symbols?: string[];
+};
+
+export type NavigationRouteData =
+  | RelatedProfilesData
+  | AccountsGroupsData
+  | ContractsData
+  | SymbolsGroupsData;
+
 export type NavigationRoute = {
   /**
    * Route title, used for display in navigation and breadcrumbs
@@ -25,6 +54,8 @@ export type NavigationRoute = {
    * Child routes, used for displaying nested routes
    */
   children?: NavigationRoute[];
+
+  data?: NavigationRouteData[];
 };
 
 /**
@@ -151,6 +182,10 @@ export abstract class NavigationServiceBase {
   abstract getRoute(
     routeUrl: string
   ): Observable<EnhancedNavigationRoute | null>;
+
+  abstract getRouteData(
+    routeUrl: string
+  ): Observable<NavigationRouteData[] | undefined>;
 
   /**
    * Returns breadcrumbs for the specified path, the result is an array of routes starting with the parent and ending with the current one
