@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NavigationService } from 'src/app/navigation/navigation.service';
@@ -7,6 +7,7 @@ import { SymbolsGroupsData } from 'src/app/navigation/navigation.types';
 @Component({
   selector: 'app-symbols-groups',
   templateUrl: './symbols-groups.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SymbolsGroupsComponent implements OnInit {
   protected symbolsGroupsData!: Observable<SymbolsGroupsData[] | undefined>;

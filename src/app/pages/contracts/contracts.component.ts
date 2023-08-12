@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NavigationService } from 'src/app/navigation/navigation.service';
@@ -7,6 +7,7 @@ import { ContractsData } from 'src/app/navigation/navigation.types';
 @Component({
   selector: 'app-contracts',
   templateUrl: './contracts.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContractsComponent {
   protected contractsData!: Observable<ContractsData[] | undefined>;
