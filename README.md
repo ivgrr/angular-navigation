@@ -54,7 +54,7 @@ In this task, I have implemented an additional component, the Level 3 navigation
 
 Each card contains Level 3 navigation items, populated from the corresponding section of the navigation configuration. An additional navigation element can be passed to each card using `ng-content`, and it is correctly displayed within the card.
 
-# Task 5 — Implementation of Data Retrieval and and Filling Lower-Level Pages with Content
+## Task 5 — Implementation of Data Retrieval and and Filling Lower-Level Pages with Content
 
 **Description of the Work Done:** In this task, I extended the application's functionality by utilizing the navigation service. The task involved implementing the ability to retrieve data from the navigation service and dynamically populate the content on pages situated at the lower levels of the hierarchy.
 
