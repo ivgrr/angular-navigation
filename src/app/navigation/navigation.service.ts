@@ -11,14 +11,14 @@ import {
   NavigationServiceBase,
 } from './navigation.types';
 
-const enchanceRoutes =
+const enhanceRoutes =
   (
-    enchanements: NavigationEnhancement[]
+    enhancements: NavigationEnhancement[]
   ): OperatorFunction<NavigationRoute[], EnhancedNavigationRoute[]> =>
   (
     source: Observable<NavigationRoute[]>
   ): Observable<EnhancedNavigationRoute[]> => {
-    for (const enhancement of enchanements) {
+    for (const enhancement of enhancements) {
       source = enhancement(source);
     }
     return source;
@@ -26,7 +26,7 @@ const enchanceRoutes =
 
 @Injectable()
 export class NavigationService extends NavigationServiceBase {
-  private enhancedRoutes: Observable<EnhancedNavigationRoute[]>;
+  private readonly enhancedRoutes: Observable<EnhancedNavigationRoute[]>;
 
   constructor(
     @Inject(NavigationRoutes)
@@ -37,25 +37,9 @@ export class NavigationService extends NavigationServiceBase {
     super();
 
     this.enhancedRoutes = of(this.navigationRoutes).pipe(
-      enchanceRoutes(this.navigationEnhancements),
+      enhanceRoutes(this.navigationEnhancements),
       shareReplay({ bufferSize: 1, refCount: true })
     );
-  }
-
-  private setParentsForChildren(
-    routes: NavigationRoute[],
-    parent: EnhancedNavigationRoute | null
-  ): EnhancedNavigationRoute[] {
-    return routes.map((route) => {
-      const routeWithParent = { ...route, parent };
-      if (route.children) {
-        routeWithParent.children = this.setParentsForChildren(
-          route.children,
-          routeWithParent
-        );
-      }
-      return routeWithParent;
-    });
   }
 
   public override getRoutes(): Observable<EnhancedNavigationRoute[]> {
@@ -66,33 +50,41 @@ export class NavigationService extends NavigationServiceBase {
     routeUrl: string
   ): Observable<EnhancedNavigationRoute | null> {
     return this.getRoutes().pipe(
-      map((routes) => this.findRouteByPath(routes, routeUrl))
+      map((routes: EnhancedNavigationRoute[]) =>
+        this.findRouteByPath(routes, routeUrl)
+      )
     );
   }
 
   public override getRouteData(
     routeUrl: string
   ): Observable<NavigationRouteData[] | undefined> {
-    return this.getRoute(routeUrl).pipe(map((route) => route?.data));
+    return this.getRoute(routeUrl).pipe(
+      map((route: EnhancedNavigationRoute | null) => route?.data)
+    );
   }
 
   public override getBreadcrumbs(
     routeUrl: string
   ): Observable<EnhancedNavigationRoute[] | null> {
     return this.getRoute(routeUrl).pipe(
-      map((route) => {
-        const breadcrumbs: EnhancedNavigationRoute[] = [];
+      map(
+        (
+          route: EnhancedNavigationRoute | null
+        ): EnhancedNavigationRoute[] | null => {
+          const breadcrumbs: EnhancedNavigationRoute[] = [];
 
-        if (!route) return null;
+          if (!route) return null;
 
-        let currentRoute: EnhancedNavigationRoute | null = route;
-        while (currentRoute) {
-          breadcrumbs.unshift(currentRoute);
-          currentRoute = currentRoute.parent || null;
+          let currentRoute: EnhancedNavigationRoute | null = route;
+          while (currentRoute) {
+            breadcrumbs.unshift(currentRoute);
+            currentRoute = currentRoute.parent || null;
+          }
+
+          return breadcrumbs;
         }
-
-        return breadcrumbs;
-      })
+      )
     );
   }
 
@@ -103,7 +95,10 @@ export class NavigationService extends NavigationServiceBase {
     for (const route of routes) {
       if (route.path === routeUrl) return route;
       if (route.children) {
-        const childRoute = this.findRouteByPath(route.children, routeUrl);
+        const childRoute: EnhancedNavigationRoute | null = this.findRouteByPath(
+          route.children,
+          routeUrl
+        );
         if (childRoute) {
           return childRoute;
         }
